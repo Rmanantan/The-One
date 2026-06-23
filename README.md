@@ -1,4 +1,4 @@
-# 🔥 The-One
+#  The-One
 
 > Personal profile and project hub built with GitHub Pages
 
