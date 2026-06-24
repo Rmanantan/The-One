@@ -1,40 +1,40 @@
-#  The-One
+TheOne — Digital Artist 
 
-> Personal profile and project hub built with GitHub Pages
+> A clean, minimalist personal portfolio website for a digital artist. Built with pure HTML and CSS, hosted on GitHub Pages.
 
-![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-brightgreen)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-blue)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-4a9eff?style=flat-square&logo=githubpages)
+![HTML5](https://img.shields.io/badge/HTML5-0a0e1a?style=flat-square&logo=html5&logoColor=4a9eff)
+![License](https://img.shields.io/badge/License-MIT-4a9eff?style=flat-square)
 
----
 
-## 🚀 Live Demo
 
-Check out the live site: [https://Rmanantan.github.io/The-One/](https://Rmanantan.github.io/The-One/)
 
----
+**TheOne** is a personal portfolio website designed for a digital artist. It features a clean, modern aesthetic with a blue color palette and minimal use of emojis — keeping the focus on the art and the artist.
 
-## 📖 About
 
-**The-One** is my personal profile website showcasing my skills, projects, and journey as a developer. This serves as my digital presence and portfolio hub.
 
-### ✨ Features
+- Minimalist blue theme
+- Fully responsive design
+- Smooth scroll navigation
+- Home, About, and Contact pages
+- Contact form with backend integration
+- Clean typography and spacing
+- Subtle hover animations
 
-- 🎨 Modern & responsive design
-- 🌙 Glassmorphism UI effects
-- 📱 Mobile-friendly layout
-- 🔗 Social media integration
-- ⚡ Fast loading with pure HTML/CSS
 
----
 
-## 🛠️ Technologies Used
 
-- **HTML5** - Structure
-- **CSS3** - Styling & Animations
-- **GitHub Pages** - Hosting & Deployment
 
----
 
-## 🏗️ Project Structure
+ Introduction, stats, services, and call-to-action 
+ Artist story, artistic style, and featured work 
+Contact methods, form, and social links 
+
+
+
+
+- HTML5 — Structure
+- CSS3— Styling, animations, responsiveness
+- GitHub Pages— Hosting
+- Node.js + Express — Backend for contact form (optional)
+- Nodemailer — Email sending
