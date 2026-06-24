@@ -4,103 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Home | Digital Artist</title>
+    <link rel="stylesheet" href="style.css" />
     <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0e1a;
-            min-height: 100vh;
-            color: #fff;
-            line-height: 1.6;
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.03);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4a9eff;
-            border-radius: 10px;
-        }
-
-        /* ===== NAVIGATION ===== */
-        .navbar {
-            background: rgba(10, 14, 26, 0.9);
-            backdrop-filter: blur(20px);
-            padding: 15px 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            transition: all 0.3s;
-        }
-
-        .navbar.scrolled {
-            background: rgba(10, 14, 26, 0.98);
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-size: 1.5em;
-            font-weight: 600;
-            color: #fff;
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        .nav-logo span {
-            color: #4a9eff;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 10px;
-        }
-
-        .nav-menu a {
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            padding: 8px 18px;
-            border-radius: 50px;
-            transition: all 0.3s;
-            font-size: 0.9em;
-            cursor: pointer;
-        }
-
-        .nav-menu a:hover {
-            color: #fff;
-            background: rgba(74, 158, 255, 0.1);
-        }
-
-        .nav-menu a.active {
-            color: #fff;
-            background: rgba(74, 158, 255, 0.15);
-            border: 1px solid rgba(74, 158, 255, 0.2);
-        }
-
         /* ===== HERO SECTION ===== */
         .hero {
             min-height: 100vh;
@@ -176,39 +81,6 @@
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 14px 32px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: inline-block;
-            border: none;
-            cursor: pointer;
-            font-size: 0.95em;
-        }
-
-        .btn-primary {
-            background: #4a9eff;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
         }
 
         .hero-image {
@@ -347,6 +219,7 @@
             font-size: 2.5em;
             display: block;
             margin-bottom: 15px;
+            color: #4a9eff;
         }
 
         .feature-card h3 {
@@ -401,24 +274,6 @@
             flex-wrap: wrap;
         }
 
-        /* ===== FOOTER ===== */
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            color: #495670;
-            font-size: 0.85em;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        footer a {
-            color: #4a9eff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 968px) {
             .hero-container {
@@ -446,22 +301,6 @@
         }
 
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .nav-menu {
-                gap: 5px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .nav-menu a {
-                padding: 6px 14px;
-                font-size: 0.8em;
-            }
-
             .hero-content h1 {
                 font-size: 2.5em;
             }
@@ -521,6 +360,7 @@
             <ul class="nav-menu">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
+                <li><a href="skills.html">Skills</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </div>
@@ -533,7 +373,7 @@
                 <span class="hero-badge">Digital Artist</span>
                 <h1>
                     Hi, I'm <br />
-                    <span class="highlight">Roger Manantan</span>
+                    <span class="highlight">Rmanantan</span>
                 </h1>
                 <p class="subtitle">Creating Visual Stories Through Digital Art</p>
                 <p>
@@ -633,13 +473,12 @@
     <footer>
         <p>
             Built with &hearts; using GitHub Pages &bull;
-            &copy; 2026 <a href="index.html">The One</a>
+            &copy; 2026 <a href="index.html">TheOne</a>
         </p>
     </footer>
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // ===== NAVBAR SCROLL EFFECT =====
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -648,16 +487,7 @@
                 navbar.classList.remove('scrolled');
             }
         });
-
-        // ===== ACTIVE NAV LINK =====
-        const navLinks = document.querySelectorAll('.nav-menu a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
     </script>
 
 </body>
-    </html>
+</html>
