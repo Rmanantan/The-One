@@ -1,4 +1,4 @@
-            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -85,6 +85,7 @@
             border-radius: 50px;
             transition: all 0.3s;
             font-size: 0.9em;
+            cursor: pointer;
         }
 
         .nav-menu a:hover {
@@ -522,9 +523,9 @@
         <div class="nav-container">
             <a href="#home" class="nav-logo">The-One</a>
             <ul class="nav-menu">
-                <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" class="active" onclick="setActive(this)">Home</a></li>
+                <li><a href="#about" onclick="setActive(this)">About</a></li>
+                <li><a href="#contact" onclick="setActive(this)">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -542,8 +543,8 @@
                 Currently learning more about Cloud &amp; DevOps.
             </p>
             <div class="hero-buttons">
-                <a href="#about" class="btn btn-primary">Learn More</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                <a href="#about" class="btn btn-primary" onclick="setActiveNav('about')">Learn More</a>
+                <a href="#contact" class="btn btn-secondary" onclick="setActiveNav('contact')">Get in Touch</a>
             </div>
         </div>
     </section>
@@ -629,15 +630,16 @@
         <!-- Contact Form -->
         <div class="form-wrapper">
             <h3>Send a Message</h3>
-            <form action="#" method="POST">
-                <input type="text" placeholder="Your Name" required />
-                <input type="email" placeholder="Your Email" required />
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit" class="btn btn-primary">Send Message</button>
+            <form id="contactForm" onsubmit="sendMessage(event)">
+                <input type="text" id="name" placeholder="Your Name" required />
+                <input type="email" id="email" placeholder="Your Email" required />
+                <textarea id="message" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Send Message</button>
+                <div id="formStatus" style="margin-top: 15px; text-align: center;"></div>
             </form>
             <p class="form-note">
-                Note: This is a demo form. For now, please use the email
-                or social links above.
+                Note: Your message will be sent directly to my email.
+                You'll receive an auto-reply confirmation.
             </p>
         </div>
     </section>
@@ -652,7 +654,26 @@
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // Active link highlight on scroll
+        // ===== SET ACTIVE NAV LINK =====
+        function setActive(element) {
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Add active class to clicked link
+            element.classList.add('active');
+        }
+
+        function setActiveNav(sectionId) {
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + sectionId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // ===== ACTIVE LINK ON SCROLL =====
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.nav-menu a');
 
@@ -672,29 +693,4 @@
                 }
             });
 
-            // Navbar background on scroll
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Smooth scroll for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
-
-</body>
-                    </html>
+            // Navbar background on scrol
