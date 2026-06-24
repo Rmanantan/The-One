@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Skills | Digital Artist</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* ===== SKILLS HERO ===== */
+        .skills-hero {
+            padding: 120px 20px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .skills-hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .skills-hero h1 .highlight {
+            color: #4a9eff;
+        }
+
+        .skills-hero .tagline {
+            color: #8ab8ff;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .skills-hero p {
+            color: #8892b0;
+            font-size: 1.05em;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* ===== SKILLS CATEGORIES ===== */
+        .skills-categories {
+            padding: 40px 20px 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 35px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(74, 158, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card .category-icon {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 15px;
+            color: #4a9eff;
+        }
+
+        .category-card h3 {
+            color: #fff;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .category-card .category-sub {
+            color: #8ab8ff;
+            font-size: 0.85em;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: rgba(74, 158, 255, 0.08);
+            color: #8ab8ff;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85em;
+            border: 1px solid rgba(74, 158, 255, 0.08);
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: rgba(74, 158, 255, 0.15);
+            border-color: rgba(74, 158, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* ===== SKILL BARS ===== */
+        .skill-bars-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 80px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .skill-bars-section .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .skill-bars-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .skill-bars-section h2 .highlight {
+            color: #4a9eff;
+        }
+
+        .skill-bars-section .subtitle {
+            text-align: center;
+            color: #8892b0;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .skill-bar-item {
+            margin-bottom: 25px;
+        }
+
+        .skill-bar-item .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .skill-bar-item .skill-info .skill-name {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .skill-bar-item .skill-info .skill-percent {
+            color: #4a9eff;
+            font-weight: 500;
+        }
+
+        .skill-bar-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1a3a6a, #4a9eff);
+            border-radius: 10px;
+            transition: width 1.2s ease-in-out;
+            width: 0;
+        }
+
+        .skill-bar-fill.animated {
+            width: var(--width);
+        }
+
+        /* ===== TOOLS SECTION ===== */
+        .tools-section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .tools-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .tools-section h2 .highlight {
+            color: #4a9eff;
+        }
+
+        .tools-section .subtitle {
+            text-align: center;
+            color: #8892b0;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s;
+        }
+
+        .tool-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(74, 158, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .tool-item .tool-icon {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .tool-item .tool-name {
+            color: #fff;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .skills-hero h1 {
+                font-size: 2.5em;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-hero h1 {
+                font-size: 2em;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .skill-bars-section .container {
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span>The</span>One</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="skills.html" class="active">Skills</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== SKILLS HERO ===== -->
+    <section class="skills-hero">
+        <h1>My <span class="highlight">Skills</span></h1>
+        <p class="tagline">✦ Tools &amp; Expertise</p>
+        <p>
+            A comprehensive overview of my technical skills, creative abilities,
+            and the tools I use to bring artistic visions to life.
+        </p>
+    </section>
+
+    <!-- ===== SKILLS CATEGORIES ===== -->
+    <section class="skills-categories">
+        <div class="category-grid">
+
+            <!-- Category 1: Digital Art -->
+            <div class="category-card">
+                <span class="category-icon">◆</span>
+                <h3>Digital Art</h3>
+                <p class="category-sub">Creative &amp; Visual</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Digital Painting</span>
+                    <span class="skill-tag">Illustration</span>
+                    <span class="skill-tag">Concept Art</span>
+                    <span class="skill-tag">Character Design</span>
+                    <span class="skill-tag">Environment Design</span>
+                    <span class="skill-tag">Storyboarding</span>
+                </div>
+            </div>
+
+            <!-- Category 2: Motion & Animation -->
+            <div class="category-card">
+                <span class="category-icon">◆</span>
+                <h3>Motion &amp; Animation</h3>
+                <p class="category-sub">Moving Visuals</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Motion Graphics</span>
+                    <span class="skill-tag">2D Animation</span>
+                    <span class="skill-tag">Visual Effects</span>
+                    <span class="skill-tag">Video Editing</span>
+                    <span class="skill-tag">Compositing</span>
+                </div>
+            </div>
+
+            <!-- Category 3: Design & UI -->
+            <div class="category-card">
+                <span class="category-icon">◆</span>
+                <h3>Design &amp; UI</h3>
+                <p class="category-sub">User Experience</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Graphic Design</span>
+                    <span class="skill-tag">Branding</span>
+                    <span class="skill-tag">Typography</span>
+                    <span class="skill-tag">Layout Design</span>
+                    <span class="skill-tag">Prototyping</span>
+                </div>
+            </div>
+
+            <!-- Category 4: Web & Tech -->
+            <div class="category-card">
+                <span class="category-icon">◆</span>
+                <h3>Web &amp; Tech</h3>
+                <p class="category-sub">Digital Tools</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Git</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== SKILL BARS ===== -->
+    <section class="skill-bars-section">
+        <div class="container">
+            <h2>Proficiency <span class="highlight">Levels</span></h2>
+            <p class="subtitle">My skill levels across different areas</p>
+
+            <div class="skill-bar-item">
+                <div class="skill-info">
+                    <span class="skill-name">Digital Painting</span>
+                    <span class="skill-percent">95%</span>
+                </div>
+                <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--width: 95%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-item">
+                <div class="skill-info">
+                    <span class="skill-name">Illustration</span>
+                    <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--width: 90%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-item">
+                <div class="skill-info">
+                    <span class="skill-name">Character Design</span>
+                    <span class="skill-percent">85%</span>
+                </div>
+                <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--width: 85%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-item">
+                <div class="skill-info">
+                    <span class="skill-name">Motion Graphics</span>
+                    <span class="skill-percent">80%</span>
+                </div>
+                <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--width: 80%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-item">
+                <div class="skill-info">
+                    <span class="skill-name">UI/UX Design</span>
+                    <span class="skill-percent">75%</span>
+                </div>
+                <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--width: 75%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-item">
+                <div class="skill-info">
+                    <span class="skill-name">Web Development</span>
+                    <span class="skill-percent">70%</span>
+                </div>
+                <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--width: 70%;"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== TOOLS SECTION ===== -->
+    <section class="tools-section">
+        <h2>Tools I <span class="highlight">Use</span></h2>
+        <p class="subtitle">My favorite creative tools and software</p>
+
+        <div class="tools-grid">
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">Photoshop</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">Illustrator</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">After Effects</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">Premiere Pro</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">Figma</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">Blender</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">Procreate</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">VS Code</span>
+            </div>
+            <div class="tool-item">
+                <span class="tool-icon">◆</span>
+                <span class="tool-name">Git</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>
+            Built with &hearts; using GitHub Pages &bull;
+            &copy; 2026 <a href="index.html">TheOne</a>
+        </p>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ===== NAVBAR SCROLL EFFECT =====
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== ACTIVE NAV LINK =====
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ===== SKILL BARS ANIMATION ON SCROLL =====
+        const skillBars = document.querySelectorAll('.skill-bar-fill');
+
+        function animateSkillBars() {
+            skillBars.forEach(bar => {
+                const rect = bar.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight - 50;
+
+                if (isVisible) {
+                    bar.style.width = bar.style.getPropertyValue('--width');
+                    bar.classList.add('animated');
+                }
+            });
+        }
+
+        // Run on load and scroll
+        window.addEventListener('load', animateSkillBars);
+        window.addEventListener('scroll', animateSkillBars);
+    </script>
+
+</body>
+                      </html>
