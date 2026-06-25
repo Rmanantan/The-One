@@ -96,6 +96,9 @@
             grid-template-columns: 1fr 1fr;
             gap: 25px;
             margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .contact-card {
             background: rgba(255,255,255,0.03);
@@ -106,10 +109,11 @@
             transition: 0.3s;
         }
         .contact-card:hover { transform: translateY(-4px); border-color: rgba(74,158,255,0.2); }
-        .contact-card .icon { font-size: 2.8em; display: block; margin-bottom: 10px; color: #4a9eff; }
+        .contact-card .icon { font-size: 2.8em; display: block; margin-bottom: 10px; }
         .contact-card h3 { font-size: 1.1em; margin-bottom: 4px; }
         .contact-card p { color: #4a9eff; font-size: 0.85em; word-break: break-all; }
 
+        /* ===== FORM ===== */
         .form-wrapper {
             background: rgba(255,255,255,0.02);
             border-radius: 20px;
@@ -148,17 +152,6 @@
         #formStatus.error { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.15); color: #f87171; }
         #formStatus.loading { background: rgba(74,158,255,0.08); border: 1px solid rgba(74,158,255,0.15); color: #8ab8ff; }
 
-        .social-links {
-            display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        .social-links a {
-            padding: 8px 22px; background: rgba(255,255,255,0.03);
-            border-radius: 50px; border: 1px solid rgba(255,255,255,0.04);
-            transition: 0.3s; font-size: 0.85em;
-        }
-        .social-links a:hover { background: rgba(74,158,255,0.08); border-color: #4a9eff; transform: translateY(-2px); }
-
         /* ===== FOOTER ===== */
         footer {
             text-align: center;
@@ -173,14 +166,13 @@
             .nav { flex-direction: column; gap: 10px; }
             .nav-links a { padding: 4px 12px; font-size: 0.8em; }
             .contact-header h1 { font-size: 2.2em; }
-            .contact-cards { grid-template-columns: 1fr; }
+            .contact-cards { grid-template-columns: 1fr; max-width: 100%; }
             .form-row { grid-template-columns: 1fr; }
             .form-wrapper { padding: 25px; }
         }
         @media (max-width: 480px) {
             .contact-header h1 { font-size: 1.8em; }
             .contact-card { padding: 20px; }
-            .social-links a { padding: 6px 16px; font-size: 0.8em; }
         }
     </style>
 </head>
@@ -212,19 +204,21 @@
             <p>Have a project, collaboration idea, or just want to say hi? Let's connect!</p>
         </div>
 
+        <!-- ===== CONTACT CARDS ===== -->
         <div class="contact-cards reveal">
-            <a href="titoroger2002@gmail.com" class="contact-card">
-                <span class="icon">✉</span>
-                <h3>Email</h3>
-                <p>titoroger2002@gmail.com</p>
-            </a>
             <a href="https://instagram.com/@tio_rogerr" target="_blank" class="contact-card">
                 <span class="icon">◆</span>
                 <h3>Instagram</h3>
                 <p>@tio_rogerr</p>
             </a>
+            <a href="https://github.com/titoroger2002@gmail.com" target="_blank" class="contact-card">
+                <span class="icon">⌘</span>
+                <h3>GitHub</h3>
+                <p>titoroger2002@gmail.com</p>
+            </a>
         </div>
 
+        <!-- ===== FORM ===== -->
         <div class="form-wrapper reveal">
             <h2>Send a <span>Message</span></h2>
             <p class="sub">I'd love to hear about your project or idea.</p>
@@ -261,11 +255,6 @@
                 <button type="submit" class="btn btn-primary" id="submitBtn">Send Message</button>
                 <div id="formStatus"></div>
             </form>
-        </div>
-
-        <div class="social-links reveal">
-            <a href="https://instagram.com/@tio_rogerr" target="_blank">Instagram</a>
-            <a href="https://github.com/rmanantan" target="_blank">GitHub</a>
         </div>
     </section>
 
