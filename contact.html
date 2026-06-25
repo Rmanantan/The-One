@@ -3,341 +3,161 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Contact | Digital Artist</title>
+    <title>The One | Contact</title>
+    <link rel="stylesheet" href="style.css" />
     <style>
-        /* ===== RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: #0a0a1a;
             color: #fff;
             line-height: 1.6;
-            min-height: 100vh;
         }
-        a {
-            text-decoration: none;
-            color: #fff;
-        }
+        a { text-decoration: none; color: #fff; }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #4a9eff; border-radius: 10px; }
+
+        /* ===== LOADER ===== */
+        .loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0a0a1a; display: flex; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
+        .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-ring {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(74,158,255,0.05);
+            border-top: 3px solid #4a9eff;
+            border-right: 3px solid #6c5ce7;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #4a9eff;
-            border-radius: 10px;
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; width: 0; height: 3px;
+            background: linear-gradient(90deg, #4a9eff, #6c5ce7);
+            z-index: 1001; transition: width 0.1s ease;
         }
 
         /* ===== NAV ===== */
         .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
+            position: fixed; top: 0; width: 100%;
             padding: 14px 30px;
-            background: rgba(10, 10, 26, 0.92);
+            background: rgba(10,10,26,0.92);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             z-index: 100;
             transition: 0.3s;
         }
-        .navbar.scrolled {
-            background: rgba(10, 10, 26, 0.98);
-        }
+        .navbar.scrolled { background: rgba(10,10,26,0.98); }
         .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1100px;
-            margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1100px; margin: 0 auto;
         }
-        .logo {
-            font-size: 1.4em;
-            font-weight: 700;
-        }
-        .logo span {
-            color: #4a9eff;
-        }
-        .nav-links {
-            display: flex;
-            gap: 8px;
-            list-style: none;
-            flex-wrap: wrap;
-        }
+        .logo { font-size: 1.4em; font-weight: 700; }
+        .logo span { color: #4a9eff; }
+        .nav-links { display: flex; gap: 8px; list-style: none; flex-wrap: wrap; }
         .nav-links a {
             padding: 6px 16px;
             border-radius: 50px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255,255,255,0.6);
             transition: 0.3s;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
             color: #fff;
-            background: rgba(74, 158, 255, 0.12);
-        }
-        .nav-links a.active {
-            color: #fff;
-            background: rgba(74, 158, 255, 0.15);
+            background: rgba(74,158,255,0.12);
         }
 
-        /* ===== CONTACT SECTION ===== */
+        /* ===== REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== CONTACT ===== */
         .contact-section {
             padding: 120px 20px 60px;
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
         }
+        .contact-header { text-align: center; margin-bottom: 40px; }
+        .contact-header h1 { font-size: 2.8em; margin-bottom: 8px; }
+        .contact-header h1 span { color: #4a9eff; }
+        .contact-header p { color: #8892b0; font-size: 1.05em; max-width: 500px; margin: 0 auto; }
 
-        /* ===== HEADER ===== */
-        .contact-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .contact-header .badge {
-            display: inline-block;
-            color: #4a9eff;
-            font-size: 0.75em;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            border-left: 3px solid #4a9eff;
-            padding-left: 12px;
-            margin-bottom: 12px;
-        }
-        .contact-header h1 {
-            font-size: 3em;
-            margin-bottom: 8px;
-        }
-        .contact-header h1 span {
-            color: #4a9eff;
-        }
-        .contact-header p {
-            color: #8892b0;
-            font-size: 1.05em;
-            max-width: 550px;
-            margin: 0 auto;
-        }
-
-        /* ===== CONTACT CARDS ===== */
         .contact-cards {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 25px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
         .contact-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255,255,255,0.03);
             border-radius: 16px;
-            padding: 30px 20px;
+            padding: 30px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: 0.3s;
         }
-        .contact-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(74, 158, 255, 0.25);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            background: rgba(74, 158, 255, 0.04);
-        }
-        .contact-card .icon {
-            font-size: 2.8em;
-            display: block;
-            margin-bottom: 10px;
-        }
-        .contact-card h3 {
-            font-size: 1.1em;
-            margin-bottom: 4px;
-            color: #fff;
-        }
-        .contact-card p {
-            color: #8892b0;
-            font-size: 0.85em;
-        }
-        .contact-card .detail {
-            color: #4a9eff;
-            font-size: 0.8em;
-            margin-top: 6px;
-            display: block;
-            word-break: break-all;
-        }
+        .contact-card:hover { transform: translateY(-4px); border-color: rgba(74,158,255,0.2); }
+        .contact-card .icon { font-size: 2.8em; display: block; margin-bottom: 10px; color: #4a9eff; }
+        .contact-card h3 { font-size: 1.1em; margin-bottom: 4px; }
+        .contact-card p { color: #4a9eff; font-size: 0.85em; word-break: break-all; }
 
-        /* ===== FORM ===== */
         .form-wrapper {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255,255,255,0.02);
             border-radius: 20px;
-            padding: 45px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            max-width: 750px;
-            margin: 0 auto 50px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.04);
+            max-width: 700px;
+            margin: 0 auto 40px;
         }
-        .form-wrapper .form-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-wrapper .form-header h2 {
-            font-size: 1.8em;
-            margin-bottom: 5px;
-        }
-        .form-wrapper .form-header h2 span {
-            color: #4a9eff;
-        }
-        .form-wrapper .form-header p {
-            color: #8892b0;
-            font-size: 0.95em;
-        }
+        .form-wrapper h2 { text-align: center; margin-bottom: 8px; font-size: 1.6em; }
+        .form-wrapper h2 span { color: #4a9eff; }
+        .form-wrapper .sub { text-align: center; color: #8892b0; margin-bottom: 25px; font-size: 0.95em; }
 
-        .form-group {
-            margin-bottom: 18px;
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; color: #8ab8ff; margin-bottom: 5px; font-size: 0.9em; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px 16px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03);
+            color: #fff; font-size: 0.95em; font-family: inherit; transition: 0.3s;
         }
-        .form-group label {
-            display: block;
-            color: #8ab8ff;
-            margin-bottom: 6px;
-            font-size: 0.9em;
-            font-weight: 500;
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: #4a9eff; background: rgba(74,158,255,0.04);
         }
-        .form-group label .required {
-            color: #f5576c;
-            margin-left: 2px;
-        }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 13px 18px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.03);
-            color: #fff;
-            font-size: 0.95em;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #4a9eff;
-            background: rgba(74, 158, 255, 0.04);
-            box-shadow: 0 0 20px rgba(74, 158, 255, 0.05);
-        }
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.2);
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        .form-group select {
-            appearance: none;
-            cursor: pointer;
-        }
-        .form-group select option {
-            background: #0a0a1a;
-            color: #fff;
-        }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+        .form-group textarea { resize: vertical; min-height: 110px; }
+        .form-group select { appearance: none; cursor: pointer; }
+        .form-group select option { background: #0a0a1a; color: #fff; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
+        .btn { padding: 12px 32px; border-radius: 50px; font-weight: 600; transition: 0.3s; display: inline-block; border: none; cursor: pointer; font-size: 0.95em; width: 100%; }
+        .btn-primary { background: #4a9eff; color: #fff; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(74,158,255,0.3); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .btn {
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            width: 100%;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #4a9eff, #6c5ce7);
-            color: #fff;
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 35px rgba(74, 158, 255, 0.35);
-        }
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
+        #formStatus { margin-top: 15px; text-align: center; padding: 12px; border-radius: 12px; }
+        #formStatus.success { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.15); color: #4ade80; }
+        #formStatus.error { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.15); color: #f87171; }
+        #formStatus.loading { background: rgba(74,158,255,0.08); border: 1px solid rgba(74,158,255,0.15); color: #8ab8ff; }
 
-        #formStatus {
-            margin-top: 18px;
-            text-align: center;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 0.95em;
-        }
-        #formStatus.success {
-            background: rgba(74, 222, 128, 0.08);
-            border: 1px solid rgba(74, 222, 128, 0.15);
-            color: #4ade80;
-        }
-        #formStatus.error {
-            background: rgba(248, 113, 113, 0.08);
-            border: 1px solid rgba(248, 113, 113, 0.15);
-            color: #f87171;
-        }
-        #formStatus.loading {
-            background: rgba(74, 158, 255, 0.08);
-            border: 1px solid rgba(74, 158, 255, 0.15);
-            color: #8ab8ff;
-        }
-
-        /* ===== SOCIAL ===== */
-        .social-section {
-            text-align: center;
-        }
-        .social-section h3 {
-            font-size: 1.2em;
-            margin-bottom: 8px;
-        }
-        .social-section h3 span {
-            color: #4a9eff;
-        }
-        .social-section p {
-            color: #8892b0;
-            margin-bottom: 20px;
-            font-size: 0.95em;
-        }
         .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+            margin-top: 10px;
         }
         .social-links a {
-            padding: 10px 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.3s ease;
-            font-size: 0.85em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 8px 22px; background: rgba(255,255,255,0.03);
+            border-radius: 50px; border: 1px solid rgba(255,255,255,0.04);
+            transition: 0.3s; font-size: 0.85em;
         }
-        .social-links a:hover {
-            background: rgba(74, 158, 255, 0.08);
-            border-color: #4a9eff;
-            transform: translateY(-3px);
-        }
-        .social-links a .sicon {
-            font-size: 1.2em;
-        }
+        .social-links a:hover { background: rgba(74,158,255,0.08); border-color: #4a9eff; transform: translateY(-2px); }
 
         /* ===== FOOTER ===== */
         footer {
@@ -345,61 +165,32 @@
             padding: 25px;
             color: #495670;
             font-size: 0.8em;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.03);
         }
-        footer a {
-            color: #4a9eff;
-        }
+        footer a { color: #4a9eff; }
 
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
         @media (max-width: 768px) {
-            .nav {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .nav-links a {
-                padding: 4px 12px;
-                font-size: 0.8em;
-            }
-            .contact-section {
-                padding: 100px 15px 40px;
-            }
-            .contact-header h1 {
-                font-size: 2.3em;
-            }
-            .contact-cards {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            .form-wrapper {
-                padding: 25px 20px;
-            }
-            .social-links a {
-                padding: 8px 18px;
-                font-size: 0.8em;
-            }
+            .nav { flex-direction: column; gap: 10px; }
+            .nav-links a { padding: 4px 12px; font-size: 0.8em; }
+            .contact-header h1 { font-size: 2.2em; }
+            .contact-cards { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-wrapper { padding: 25px; }
         }
-
         @media (max-width: 480px) {
-            .contact-header h1 {
-                font-size: 1.8em;
-            }
-            .contact-card {
-                padding: 20px;
-            }
-            .form-wrapper .form-header h2 {
-                font-size: 1.4em;
-            }
+            .contact-header h1 { font-size: 1.8em; }
+            .contact-card { padding: 20px; }
+            .social-links a { padding: 6px 16px; font-size: 0.8em; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ===== LOADER ===== -->
+    <div class="loader" id="loader"><div class="loader-ring"></div></div>
+
+    <!-- ===== PROGRESS BAR ===== -->
+    <div class="progress-bar" id="progressBar"></div>
 
     <!-- ===== NAV ===== -->
     <nav class="navbar" id="navbar">
@@ -416,153 +207,78 @@
 
     <!-- ===== CONTACT ===== -->
     <section class="contact-section">
-
-        <!-- ===== HEADER ===== -->
-        <div class="contact-header">
-            <span class="badge">✦ Let's Connect</span>
+        <div class="contact-header reveal">
             <h1>Get in <span>Touch</span></h1>
-            <p>Have a project, collaboration idea, or just want to say hi? I'd love to hear from you!</p>
+            <p>Have a project, collaboration idea, or just want to say hi? Let's connect!</p>
         </div>
 
-        <!-- ===== CONTACT CARDS ===== -->
-        <div class="contact-cards">
+        <div class="contact-cards reveal">
             <a href="titoroger2002@gmail.com" class="contact-card">
                 <span class="icon">✉</span>
                 <h3>Email</h3>
-                <p>Send me a message</p>
-                <span class="detail">titoroger2002@gmail.com</span>
+                <p>titoroger2002@gmail.com</p>
             </a>
             <a href="https://instagram.com/@tio_rogerr" target="_blank" class="contact-card">
                 <span class="icon">◆</span>
                 <h3>Instagram</h3>
-                <p>DM me on Instagram</p>
-                <span class="detail">@tio_rogerr</span>
+                <p>@tio_roger</p>
             </a>
         </div>
 
-        <!-- ===== FORM ===== -->
-        <div class="form-wrapper">
-            <div class="form-header">
-                <h2>Send a <span>Message</span></h2>
-                <p>I'll get back to you within 24-48 hours.</p>
-            </div>
+        <div class="form-wrapper reveal">
+            <h2>Send a <span>Message</span></h2>
+            <p class="sub">I'd love to hear about your project or idea.</p>
 
             <form id="contactForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Your Name <span class="required">*</span></label>
+                        <label>Your Name</label>
                         <input type="text" id="name" placeholder="Enter your name" required />
                     </div>
                     <div class="form-group">
-                        <label>Your Email <span class="required">*</span></label>
+                        <label>Your Email</label>
                         <input type="email" id="email" placeholder="Enter your email" required />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Subject <span class="required">*</span></label>
+                    <label>Subject</label>
                     <select id="subject" required>
                         <option value="">Select a subject...</option>
-                        <option value="Art Commission">🎨 Art Commission</option>
-                        <option value="Collaboration">🤝 Collaboration</option>
-                        <option value="Project Inquiry">💡 Project Inquiry</option>
-                        <option value="Feedback">📝 Feedback</option>
-                        <option value="Other">📌 Other</option>
+                        <option value="Art Commission">Art Commission</option>
+                        <option value="Collaboration">Collaboration</option>
+                        <option value="Project Inquiry">Project Inquiry</option>
+                        <option value="Feedback">Feedback</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Your Message <span class="required">*</span></label>
-                    <textarea id="message" placeholder="Tell me about your project, idea, or what you'd like to create together..." required></textarea>
+                    <label>Message</label>
+                    <textarea id="message" placeholder="Tell me about your project or idea..." required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="submitBtn">
-                    ✦ Send Message
-                </button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Send Message</button>
                 <div id="formStatus"></div>
             </form>
         </div>
 
-        <!-- ===== SOCIAL ===== -->
-        <div class="social-section">
-            <h3>Connect <span>With Me</span></h3>
-            <p>Follow my creative journey and see my latest work</p>
-            <div class="social-links">
-                <a href="https://instagram.com/@tio_rogerr" target="_blank">
-                    <span class="sicon">◆</span> Instagram
-                <a href="https://github.com/titoroger2002@gmail.com" target="_blank">
-                    <span class="sicon">⌘</span> GitHub
-                
-                </a>
-            </div>
+        <div class="social-links reveal">
+            <a href="https://instagram.com/roger" target="_blank">Instagram</a>
+            <a href="https://behance.net/roger" target="_blank">Behance</a>
+            <a href="https://twitter.com/roger" target="_blank">Twitter</a>
+            <a href="https://linkedin.com/in/roger" target="_blank">LinkedIn</a>
+            <a href="https://github.com/roger" target="_blank">GitHub</a>
         </div>
-
     </section>
 
     <!-- ===== FOOTER ===== -->
     <footer>
-        <p>Built with &hearts; using GitHub Pages &bull; &copy; 2026 <a href="index.html">TheOne</a></p>
+        <p>Built with &hearts; using GitHub Pages &bull; &copy; 2026 <a href="index.html">The One</a></p>
     </footer>
 
-    <!-- ============================================
-    JAVASCRIPT
-    ============================================ -->
-    <script>
-        // ===== NAVBAR SCROLL =====
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // ===== CONTACT FORM =====
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value.trim();
-            const btn = document.getElementById('submitBtn');
-            const status = document.getElementById('formStatus');
-
-            // Validation
-            if (!name || !email || !subject || !message) {
-                status.className = 'error';
-                status.innerHTML = '❌ Please fill in all required fields.';
-                return;
-            }
-
-            // Email validation
-            if (!email.includes('@') || !email.includes('.')) {
-                status.className = 'error';
-                status.innerHTML = '❌ Please enter a valid email address.';
-                return;
-            }
-
-            // Simulate sending
-            btn.disabled = true;
-            btn.textContent = 'Sending...';
-            status.className = 'loading';
-            status.innerHTML = '⏳ Sending your message...';
-
-            await new Promise(r => setTimeout(r, 2000));
-
-            // Success
-            status.className = 'success';
-            status.innerHTML = '✅ Message sent successfully! I\'ll get back to you soon. 🎨';
-            this.reset();
-            btn.disabled = false;
-            btn.textContent = '✦ Send Message';
-
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                status.className = '';
-                status.innerHTML = '';
-            }, 5000);
-        });
-
-        console.log('📬 Contact page loaded successfully!');
-    </script>
+    <!-- ===== MAIN.JS ===== -->
+    <script src="main.js"></script>
 
 </body>
 </html>
