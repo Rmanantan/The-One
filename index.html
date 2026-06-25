@@ -3,591 +3,405 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>REVDev | Dynamic Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <title>Digital Artist</title>
     <style>
-        /* ===== ADDITIONAL DYNAMIC STYLES ===== */
-        
-        /* ---- Loading Animation ---- */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        /* ===== RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
             background: #0a0a1a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            color: #fff;
+            line-height: 1.6;
+        }
+        a { text-decoration: none; color: #fff; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #4a9eff; border-radius: 10px; }
+
+        /* ===== LOADER ===== */
+        .loader {
+            position: fixed; inset: 0;
+            background: #0a0a1a;
+            display: flex; justify-content: center; align-items: center;
             z-index: 9999;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            transition: opacity 0.6s;
         }
-
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(74, 158, 255, 0.1);
+        .loader.hidden { opacity: 0; pointer-events: none; }
+        .loader span {
+            width: 40px; height: 40px;
+            border: 3px solid rgba(74,158,255,0.1);
             border-top-color: #4a9eff;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* ===== NAV ===== */
+        .navbar {
+            position: fixed; top: 0; width: 100%;
+            padding: 14px 30px;
+            background: rgba(10,10,26,0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            z-index: 100;
+            transition: 0.3s;
+        }
+        .navbar.scrolled { background: rgba(10,10,26,0.98); }
+        .nav { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; }
+        .logo { font-size: 1.4em; font-weight: 700; }
+        .logo span { color: #4a9eff; }
+        .nav-links { display: flex; gap: 8px; list-style: none; }
+        .nav-links a {
+            padding: 6px 16px;
+            border-radius: 50px;
+            color: rgba(255,255,255,0.6);
+            transition: 0.3s;
+            font-size: 0.9em;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: rgba(74,158,255,0.12);
         }
 
-        /* ---- Scroll Animations ---- */
+        /* ===== SCROLL PROGRESS ===== */
+        .progress {
+            position: fixed; top: 0; left: 0;
+            width: 0; height: 2px;
+            background: #4a9eff;
+            z-index: 101;
+        }
+
+        /* ===== REVEAL ===== */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px);
+            transition: all 0.6s ease;
         }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        /* ===== FLOAT ===== */
+        .float { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        .reveal-left {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .reveal-right {
-            opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-right.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .reveal-scale {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-scale.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* ---- Floating Animation ---- */
-        .float {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* ---- Glow Animation ---- */
-        .glow {
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(74, 158, 255, 0.1); }
-            50% { box-shadow: 0 0 40px rgba(74, 158, 255, 0.3), 0 0 60px rgba(108, 92, 231, 0.1); }
-        }
-
-        /* ---- Typing Cursor ---- */
-        .typing-cursor {
+        /* ===== TYPING ===== */
+        .cursor {
             display: inline-block;
-            width: 3px;
-            height: 1.1em;
+            width: 2px; height: 1em;
             background: #4a9eff;
-            margin-left: 4px;
             animation: blink 0.8s step-end infinite;
-            vertical-align: text-bottom;
         }
+        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center;
+            padding: 100px 20px 60px;
         }
-
-        /* ---- Particle Background ---- */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-
-        /* ---- Skill Tags Hover Effect ---- */
-        .skill-tag {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-tag::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #4a9eff, #6c5ce7);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .skill-tag:hover::before {
-            opacity: 0.15;
-        }
-
-        /* ---- Portfolio Card 3D Tilt ---- */
-        .portfolio-box {
-            perspective: 1000px;
-        }
-
-        .portfolio-box-inner {
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .portfolio-box:hover .portfolio-box-inner {
-            transform: rotateY(3deg) rotateX(3deg);
-        }
-
-        /* ---- Counter Animation ---- */
-        .counter {
+        .hero h1 { font-size: 3.5em; }
+        .hero h1 span { color: #4a9eff; }
+        .hero .sub { color: #8ab8ff; font-size: 1.2em; margin: 8px 0 15px; }
+        .hero p { color: #8892b0; max-width: 450px; }
+        .hero .btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
             display: inline-block;
+            border: none;
+            cursor: pointer;
         }
-
-        /* ---- Dynamic Background ---- */
-        .dynamic-bg {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .dynamic-bg::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(74, 158, 255, 0.03), transparent 50%),
-                        radial-gradient(circle at 70% 50%, rgba(108, 92, 231, 0.03), transparent 50%);
-            animation: bgMove 20s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes bgMove {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(5%, 5%); }
-            50% { transform: translate(-5%, 10%); }
-            75% { transform: translate(10%, -5%); }
-        }
-
-        /* ---- Mouse Follower ---- */
-        .cursor-follower {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(74, 158, 255, 0.3);
+        .btn-primary { background: #4a9eff; color: #fff; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(74,158,255,0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.08); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+        .avatar {
+            width: 300px; height: 300px;
             border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transition: width 0.3s, height 0.3s, border-color 0.3s;
-            transform: translate(-50%, -50%);
-            display: none;
+            background: linear-gradient(135deg, #1a3a6a, #4a9eff);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 90px; color: #fff;
+            border: 4px solid rgba(74,158,255,0.15);
+            box-shadow: 0 20px 60px rgba(74,158,255,0.1);
+            margin: 0 auto;
         }
 
-        .cursor-follower.active {
-            display: block;
+        /* ===== STATS ===== */
+        .stats {
+            padding: 50px 20px;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
         }
-
-        .cursor-follower.hover {
-            width: 60px;
-            height: 60px;
-            border-color: rgba(108, 92, 231, 0.5);
-            background: rgba(108, 92, 231, 0.05);
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
         }
+        .stats-grid h2 { font-size: 2.5em; color: #4a9eff; }
+        .stats-grid p { color: #8892b0; font-size: 0.9em; }
 
-        /* ---- Progress Bar Animation ---- */
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 6px;
+        /* ===== FEATURES ===== */
+        .features {
+            padding: 60px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4a9eff, #6c5ce7);
-            border-radius: 10px;
-            width: 0;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        .features h2 { text-align: center; font-size: 2.2em; margin-bottom: 10px; }
+        .features h2 span { color: #4a9eff; }
+        .features .sub { text-align: center; color: #8892b0; margin-bottom: 35px; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
         }
-
-        .progress-bar-fill.animated {
-            width: var(--width);
-        }
-
-        /* ---- Notification Toast ---- */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 28px;
+        .feature {
+            background: rgba(255,255,255,0.03);
+            padding: 28px;
             border-radius: 16px;
-            background: rgba(10, 10, 26, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: #fff;
-            font-size: 0.95em;
-            z-index: 9999;
-            transform: translateX(120%);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: 0.3s;
         }
+        .feature:hover { transform: translateY(-4px); border-color: rgba(74,158,255,0.15); }
+        .feature .icon { font-size: 2.2em; display: block; margin-bottom: 10px; color: #4a9eff; }
+        .feature h3 { font-size: 1.1em; margin-bottom: 6px; }
+        .feature p { color: #8892b0; font-size: 0.9em; }
 
-        .toast.show {
-            transform: translateX(0);
+        /* ===== CTA ===== */
+        .cta {
+            padding: 60px 20px;
+            background: rgba(74,158,255,0.03);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            text-align: center;
         }
+        .cta h2 { font-size: 2.2em; }
+        .cta h2 span { color: #4a9eff; }
+        .cta p { color: #8892b0; max-width: 600px; margin: 10px auto 25px; }
+        .cta .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-        .toast.success {
-            border-color: rgba(74, 222, 128, 0.3);
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #495670;
+            font-size: 0.85em;
+            border-top: 1px solid rgba(255,255,255,0.03);
         }
-
-        .toast.error {
-            border-color: rgba(248, 113, 113, 0.3);
-        }
-
-        .toast .toast-icon {
-            margin-right: 12px;
-        }
-
-        /* ---- Scroll Progress ---- */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #4a9eff, #6c5ce7);
-            z-index: 1001;
-            transition: width 0.1s ease;
-        }
+        footer a { color: #4a9eff; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .cursor-follower {
-                display: none !important;
-            }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero h1 { font-size: 2.5em; }
+            .hero p { margin: 0 auto; }
+            .hero .btns { justify-content: center; }
+            .avatar { width: 200px; height: 200px; font-size: 60px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav { flex-direction: column; gap: 10px; }
+            .nav-links a { padding: 4px 12px; font-size: 0.8em; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2em; }
+            .avatar { width: 160px; height: 160px; font-size: 45px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .hero .btns { flex-direction: column; align-items: center; }
+            .hero .btns .btn { width: 100%; max-width: 220px; text-align: center; }
+            .cta .btns { flex-direction: column; align-items: center; }
+            .cta .btns .btn { width: 100%; max-width: 220px; text-align: center; }
         }
     </style>
 </head>
 <body>
 
     <!-- ===== LOADER ===== -->
-    <div class="loader" id="loader">
-        <div class="loader-spinner"></div>
-    </div>
+    <div class="loader" id="loader"><span></span></div>
 
-    <!-- ===== SCROLL PROGRESS ===== -->
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- ===== PROGRESS ===== -->
+    <div class="progress" id="progress"></div>
 
-    <!-- ===== CURSOR FOLLOWER ===== -->
-    <div class="cursor-follower" id="cursorFollower"></div>
-
-    <!-- ===== PARTICLES CANVAS ===== -->
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- ===== TOAST ===== -->
-    <div class="toast" id="toast">
-        <span class="toast-icon">✅</span>
-        <span id="toastMessage">Message sent successfully!</span>
-    </div>
-
-    <!-- ===== NAVIGATION ===== -->
+    <!-- ===== NAV ===== -->
     <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo"><span>REV</span>Dev.</a>
-            <ul class="nav-menu">
+        <div class="nav">
+            <a href="index.html" class="logo"><span>Art</span>Studio</a>
+            <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="skills.html">Skills</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- ===== HERO SECTION ===== -->
-    <section class="hero dynamic-bg">
-        <div class="hero-container">
-            <div class="hero-content">
-                <span class="hero-badge">✦ Welcome to my portfolio</span>
-                <p class="greeting">Hello, It's Me</p>
-                <h1>
-                    <span class="highlight" id="typedName">Revangga</span>
-                    <span class="typing-cursor"></span>
-                </h1>
-                <p class="subtitle">And I'm a <span class="highlight" id="typedRole">Frontend Developer</span></p>
-                <p>
-                    I build modern web applications, explore AI technologies,
-                    and contribute to open source. Passionate about creating
-                    meaningful digital experiences.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary" onclick="showToast('CV Downloaded! 📄', 'success')">
-                        Download CV
-                    </a>
-                    <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="hero-grid">
+            <div>
+                <span style="color:#4a9eff;font-size:0.8em;letter-spacing:3px;">✦ DIGITAL ARTIST</span>
+                <h1>Hi, I'm <span id="name">Rmanantan</span><span class="cursor"></span></h1>
+                <p class="sub">Creating Visual Stories Through <span style="color:#4a9eff;" id="role">Digital Art</span></p>
+                <p>I bring imagination to life through pixels and creativity.</p>
+                <div class="btns">
+                    <a href="#about" class="btn btn-primary">Learn More</a>
+                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="hero-avatar float glow">R</div>
+            <div>
+                <div class="avatar float">A</div>
             </div>
         </div>
     </section>
 
-    <!-- ===== STATS SECTION ===== -->
+    <!-- ===== STATS ===== -->
     <section class="stats reveal">
-        <div class="stats-container">
-            <div class="stat-item">
-                <h2><span class="counter" data-target="3341">0</span></h2>
-                <p>Followers</p>
-            </div>
-            <div class="stat-item">
-                <h2><span class="counter" data-target="64">0</span></h2>
-                <p>Projects</p>
-            </div>
-            <div class="stat-item">
-                <h2><span class="counter" data-target="1737">0</span></h2>
-                <p>Contributions</p>
-            </div>
+        <div class="stats-grid">
+            <div><h2 class="counter" data-target="5">0</h2><p>Years Experience</p></div>
+            <div><h2 class="counter" data-target="120">0</h2><p>Artworks Created</p></div>
+            <div><h2 class="counter" data-target="35">0</h2><p>Happy Clients</p></div>
+            <div><h2 class="counter" data-target="18">0</h2><p>Exhibitions</p></div>
         </div>
     </section>
 
-    <!-- ===== PORTFOLIO SECTION ===== -->
-    <section class="portfolio" id="portfolio">
-        <h2>My <span class="highlight">Portfolio</span></h2>
-        <p class="subtitle">Showcasing my recent work and projects</p>
-        <div class="portfolio-grid">
-            <!-- Project 1 -->
-            <div class="portfolio-box reveal-scale">
-                <div class="portfolio-box-inner">
-                    <div class="portfolio-image">
-                        <span class="placeholder-icon">🎨</span>
-                    </div>
-                    <div class="portfolio-layer">
-                        <h4>Web Design</h4>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Accusamus, sequi! Lorem ipsum dolor sit amet.
-                        </p>
-                        <div class="tags">
-                            <span>#html</span>
-                            <span>#css3</span>
-                            <span>#javascript</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="portfolio-box reveal-scale" style="transition-delay: 0.2s;">
-                <div class="portfolio-box-inner">
-                    <div class="portfolio-image">
-                        <span class="placeholder-icon">💻</span>
-                    </div>
-                    <div class="portfolio-layer">
-                        <h4>Web Development</h4>
-                        <p>
-                            Building responsive and modern web applications
-                            with cutting-edge technologies and best practices.
-                        </p>
-                        <div class="tags">
-                            <span>#react</span>
-                            <span>#nodejs</span>
-                            <span>#mongodb</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="portfolio-box reveal-scale" style="transition-delay: 0.4s;">
-                <div class="portfolio-box-inner">
-                    <div class="portfolio-image">
-                        <span class="placeholder-icon">🎯</span>
-                    </div>
-                    <div class="portfolio-layer">
-                        <h4>UI/UX Design</h4>
-                        <p>
-                            Creating intuitive and beautiful user interfaces
-                            with a focus on user experience and accessibility.
-                        </p>
-                        <div class="tags">
-                            <span>#figma</span>
-                            <span>#design</span>
-                            <span>#prototype</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- ===== FEATURES ===== -->
+    <section class="features reveal" id="about">
+        <h2>What I <span>Do</span></h2>
+        <p class="sub">Exploring different artistic mediums</p>
+        <div class="features-grid">
+            <div class="feature"><span class="icon">◆</span><h3>Digital Painting</h3><p>Creating vibrant digital paintings with various techniques.</p></div>
+            <div class="feature"><span class="icon">◆</span><h3>Character Design</h3><p>Bringing characters to life through thoughtful design.</p></div>
+            <div class="feature"><span class="icon">◆</span><h3>Motion Graphics</h3><p>Combining animation and graphic design for engaging content.</p></div>
+            <div class="feature"><span class="icon">◆</span><h3>Illustration</h3><p>Crafting detailed illustrations that tell stories.</p></div>
         </div>
     </section>
 
-    <!-- ===== ABOUT SECTION ===== -->
-    <section class="about" id="about">
-        <div class="about-content reveal-left">
-            <h2>About <span class="highlight">Me</span></h2>
-            <p class="tagline">Frontend Developer &amp; Creative Thinker</p>
-            <p>
-                I'm a passionate Frontend Developer with a love for creating
-                beautiful, functional, and user-friendly web applications.
-                My journey in tech started with a simple curiosity about how
-                websites work, and it has since evolved into a full-blown career.
-            </p>
-            <p>
-                I believe in writing clean, maintainable code and building
-                applications that make a difference in people's lives.
-            </p>
-        </div>
-        <div class="about-image reveal-right">
-            <div class="about-avatar">R</div>
-        </div>
-    </section>
-
-    <!-- ===== CONTACT SECTION ===== -->
-    <section class="contact" id="contact">
-        <h2>Get in <span class="highlight">Touch</span></h2>
-        <p class="subtitle">Have a project in mind? Let's talk!</p>
-        <div class="contact-form reveal">
-            <form id="contactForm" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" placeholder="Enter your name" required />
-                </div>
-                <div class="form-group">
-                    <label for="email">Your Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" required />
-                </div>
-                <div class="form-group">
-                    <label for="message">Your Message</label>
-                    <textarea id="message" placeholder="Tell me about your project..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%;">
-                    Send Message
-                </button>
-            </form>
+    <!-- ===== CTA ===== -->
+    <section class="cta reveal" id="contact">
+        <h2>Let's <span>Create</span> Together</h2>
+        <p>Have a project in mind? I'd love to hear about your ideas.</p>
+        <div class="btns">
+            <a href="mailto:your.email@gmail.com" class="btn btn-primary">Email Me</a>
+            <a href="https://instagram.com/yourusername" target="_blank" class="btn btn-secondary">Follow Me</a>
         </div>
     </section>
 
     <!-- ===== FOOTER ===== -->
     <footer>
-        <p>
-            Built with &hearts; using GitHub Pages &bull;
-            &copy; 2026 <a href="index.html">REVDev</a>
-        </p>
+        <p>Built with &hearts; using GitHub Pages &bull; &copy; 2026 <a href="index.html">ArtStudio</a></p>
     </footer>
 
-    <!-- ========================================
-    JAVASCRIPT — All Dynamic Features
-    ======================================== -->
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
     <script>
-        // =========================================
-        // 1. LOADER
-        // =========================================
+        // ===== LOADER =====
         window.addEventListener('load', () => {
-            document.getElementById('loader').classList.add('hidden');
+            setTimeout(() => document.getElementById('loader').classList.add('hidden'), 800);
             initCounters();
             initReveal();
-            initTypingEffect();
-            initParticles();
+            initTyping();
         });
 
-        // =========================================
-        // 2. SCROLL PROGRESS
-        // =========================================
+        // ===== SCROLL PROGRESS & NAV =====
         window.addEventListener('scroll', () => {
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrollTop / docHeight) * 100;
-            document.getElementById('scrollProgress').style.width = progress + '%';
+            document.getElementById('progress').style.width = (scrollTop / docHeight * 100) + '%';
+            document.getElementById('navbar').classList.toggle('scrolled', scrollTop > 50);
         });
 
-        // =========================================
-        // 3. NAVBAR SCROLL EFFECT
-        // =========================================
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // =========================================
-        // 4. CURSOR FOLLOWER (Desktop only)
-        // =========================================
-        const cursor = document.getElementById('cursorFollower');
-
-        if (window.innerWidth > 768) {
-            cursor.classList.add('active');
-
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-
-            document.querySelectorAll('a, button, .btn, .portfolio-box, .skill-tag').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-            });
-        }
-
-        // =========================================
-        // 5. TYPING EFFECT
-        // =========================================
-        function initTypingEffect() {
-            const nameElement = document.getElementById('typedName');
-            const roleElement = document.getElementById('typedRole');
-            const nameText = 'Revangga';
-            const roleText = 'Frontend Developer';
-
-            let nameIndex = 0;
-            let roleIndex = 0;
-            let isNameComplete = false;
-            let isRoleComplete = false;
-
+        // ===== TYPING EFFECT =====
+        function initTyping() {
+            const nameEl = document.getElementById('name');
+            const roleEl = document.getElementById('role');
+            const nameText = 'Rmanantan';
+            const roleText = 'Digital Art';
+            let ni = 0, ri = 0;
+            nameEl.textContent = '';
+            roleEl.textContent = '';
             function typeName() {
-                if (nameIndex < nameText.length) {
-                    nameElement.textContent += nameText.charAt(nameIndex);
-                    nameIndex++;
+                if (ni < nameText.length) {
+                    nameEl.textContent += nameText[ni++];
                     setTimeout(typeName, 100);
                 } else {
-                    isNameComplete = true;
-                    if (isNameComplete && !isRoleComplete) {
-                        setTimeout(typeRole, 300);
-                    }
+                    setTimeout(typeRole, 300);
                 }
             }
-
             function typeRole() {
-                if (roleIndex < roleText.length) {
-                    roleE
+                if (ri < roleText.length) {
+                    roleEl.textContent += roleText[ri++];
+                    setTimeout(typeRole, 80);
+                }
+            }
+            typeName();
+        }
+
+        // ===== COUNTERS =====
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            let animated = false;
+            function animate() {
+                if (animated) return;
+                const stats = document.querySelector('.stats');
+                if (stats.getBoundingClientRect().top < window.innerHeight * 0.8) {
+                    animated = true;
+                    counters.forEach(c => {
+                        const target = parseInt(c.dataset.target);
+                        const duration = 2000;
+                        const start = performance.now();
+                        function update(time) {
+                            const elapsed = time - start;
+                            const progress = Math.min(elapsed / duration, 1);
+                            c.textContent = Math.floor(progress * target).toLocaleString();
+                            if (progress < 1) requestAnimationFrame(update);
+                            else c.textContent = target.toLocaleString();
+                        }
+                        requestAnimationFrame(update);
+                    });
+                }
+            }
+            window.addEventListener('scroll', animate);
+            window.addEventListener('load', animate);
+        }
+
+        // ===== REVEAL =====
+        function initReveal() {
+            const els = document.querySelectorAll('.reveal');
+            function check() {
+                els.forEach(el => {
+                    if (el.getBoundingClientRect().top < window.innerHeight * 0.85) {
+                        el.classList.add('visible');
+                    }
+                });
+            }
+            window.addEventListener('scroll', check);
+            window.addEventListener('load', check);
+        }
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        console.log('🎨 Digital Artist Portfolio loaded!');
+    </script>
+</body>
+</html>
