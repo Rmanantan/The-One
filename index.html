@@ -3,360 +3,328 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Home | Digital Artist</title>
+    <title>REVDev | Dynamic Portfolio</title>
     <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
-        /* ===== HERO SECTION ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 20px 80px;
-        }
-
-        .hero-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            max-width: 1100px;
+        /* ===== ADDITIONAL DYNAMIC STYLES ===== */
+        
+        /* ---- Loading Animation ---- */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            align-items: center;
-        }
-
-        .hero-content {
-            animation: fadeInLeft 0.8s ease;
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .hero-badge {
-            display: inline-block;
-            color: #4a9eff;
-            font-size: 0.8em;
-            margin-bottom: 15px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            border-left: 3px solid #4a9eff;
-            padding-left: 12px;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5em;
-            margin-bottom: 10px;
-            line-height: 1.2;
-            font-weight: 700;
-        }
-
-        .hero-content h1 .highlight {
-            color: #4a9eff;
-        }
-
-        .hero-content .subtitle {
-            color: #8ab8ff;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        .hero-content p {
-            color: #8892b0;
-            font-size: 1.05em;
-            margin-bottom: 30px;
-            max-width: 500px;
-            line-height: 1.8;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .hero-image {
+            height: 100%;
+            background: #0a0a1a;
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: fadeInRight 0.8s ease;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
         }
 
-        .hero-avatar {
-            width: 350px;
-            height: 350px;
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(74, 158, 255, 0.1);
+            border-top-color: #4a9eff;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1a3a6a, #4a9eff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 100px;
-            font-weight: 300;
-            color: #fff;
-            border: 4px solid rgba(74, 158, 255, 0.2);
-            box-shadow: 0 20px 60px rgba(74, 158, 255, 0.15);
-            position: relative;
+            animation: spin 0.8s linear infinite;
         }
 
-        .hero-avatar::after {
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ---- Scroll Animations ---- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ---- Floating Animation ---- */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* ---- Glow Animation ---- */
+        .glow {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(74, 158, 255, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(74, 158, 255, 0.3), 0 0 60px rgba(108, 92, 231, 0.1); }
+        }
+
+        /* ---- Typing Cursor ---- */
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.1em;
+            background: #4a9eff;
+            margin-left: 4px;
+            animation: blink 0.8s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ---- Particle Background ---- */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ---- Skill Tags Hover Effect ---- */
+        .skill-tag {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-tag::before {
             content: '';
             position: absolute;
-            inset: -8px;
+            inset: 0;
+            background: linear-gradient(135deg, #4a9eff, #6c5ce7);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-tag:hover::before {
+            opacity: 0.15;
+        }
+
+        /* ---- Portfolio Card 3D Tilt ---- */
+        .portfolio-box {
+            perspective: 1000px;
+        }
+
+        .portfolio-box-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .portfolio-box:hover .portfolio-box-inner {
+            transform: rotateY(3deg) rotateX(3deg);
+        }
+
+        /* ---- Counter Animation ---- */
+        .counter {
+            display: inline-block;
+        }
+
+        /* ---- Dynamic Background ---- */
+        .dynamic-bg {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dynamic-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(74, 158, 255, 0.03), transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(108, 92, 231, 0.03), transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(5%, 5%); }
+            50% { transform: translate(-5%, 10%); }
+            75% { transform: translate(10%, -5%); }
+        }
+
+        /* ---- Mouse Follower ---- */
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(74, 158, 255, 0.3);
             border-radius: 50%;
-            border: 1px solid rgba(74, 158, 255, 0.15);
-            animation: pulse 2s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+            transform: translate(-50%, -50%);
+            display: none;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.04);
-                opacity: 1;
-            }
-        }
-
-        /* ===== STATS SECTION ===== */
-        .stats {
-            background: rgba(255, 255, 255, 0.02);
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 60px 20px;
-        }
-
-        .stats-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            text-align: center;
-        }
-
-        .stat-item h2 {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #4a9eff;
-        }
-
-        .stat-item p {
-            color: #8892b0;
-            font-size: 0.9em;
-            margin-top: 5px;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        /* ===== FEATURES / SERVICES ===== */
-        .features {
-            padding: 80px 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .features h2 .highlight {
-            color: #4a9eff;
-        }
-
-        .features-subtitle {
-            text-align: center;
-            color: #8892b0;
-            margin-bottom: 40px;
-            font-size: 1.1em;
-            font-weight: 300;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(74, 158, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature-card .icon {
-            font-size: 2.5em;
+        .cursor-follower.active {
             display: block;
-            margin-bottom: 15px;
-            color: #4a9eff;
         }
 
-        .feature-card h3 {
+        .cursor-follower.hover {
+            width: 60px;
+            height: 60px;
+            border-color: rgba(108, 92, 231, 0.5);
+            background: rgba(108, 92, 231, 0.05);
+        }
+
+        /* ---- Progress Bar Animation ---- */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a9eff, #6c5ce7);
+            border-radius: 10px;
+            width: 0;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-bar-fill.animated {
+            width: var(--width);
+        }
+
+        /* ---- Notification Toast ---- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 28px;
+            border-radius: 16px;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             color: #fff;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .feature-card p {
-            color: #8892b0;
             font-size: 0.95em;
-            line-height: 1.7;
-            font-weight: 300;
+            z-index: 9999;
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        /* ===== CTA SECTION ===== */
-        .cta-section {
-            background: rgba(74, 158, 255, 0.03);
-            padding: 80px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        .toast.show {
+            transform: translateX(0);
         }
 
-        .cta-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
+        .toast.success {
+            border-color: rgba(74, 222, 128, 0.3);
         }
 
-        .cta-container h2 {
-            font-size: 2.5em;
-            margin-bottom: 15px;
-            font-weight: 700;
+        .toast.error {
+            border-color: rgba(248, 113, 113, 0.3);
         }
 
-        .cta-container h2 .highlight {
-            color: #4a9eff;
+        .toast .toast-icon {
+            margin-right: 12px;
         }
 
-        .cta-container p {
-            color: #8892b0;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+        /* ---- Scroll Progress ---- */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4a9eff, #6c5ce7);
+            z-index: 1001;
+            transition: width 0.1s ease;
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 968px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-content p {
-                margin: 0 auto 30px;
-            }
-
-            .hero-buttons {
-                justify-content: center;
-            }
-
-            .hero-avatar {
-                width: 250px;
-                height: 250px;
-                font-size: 70px;
-            }
-
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
         @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5em;
-            }
-
-            .hero-avatar {
-                width: 200px;
-                height: 200px;
-                font-size: 55px;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-container h2 {
-                font-size: 2em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-content h1 {
-                font-size: 2em;
-            }
-
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .hero-buttons .btn {
-                width: 100%;
-                max-width: 250px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .cta-buttons .btn {
-                width: 100%;
-                max-width: 250px;
+            .cursor-follower {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== LOADER ===== -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- ===== SCROLL PROGRESS ===== -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- ===== CURSOR FOLLOWER ===== -->
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <!-- ===== PARTICLES CANVAS ===== -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✅</span>
+        <span id="toastMessage">Message sent successfully!</span>
+    </div>
+
     <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo"><span>The</span>One</a>
+            <a href="index.html" class="nav-logo"><span>REV</span>Dev.</a>
             <ul class="nav-menu">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
@@ -367,105 +335,165 @@
     </nav>
 
     <!-- ===== HERO SECTION ===== -->
-    <section class="hero">
+    <section class="hero dynamic-bg">
         <div class="hero-container">
             <div class="hero-content">
-                <span class="hero-badge">Digital Artist</span>
+                <span class="hero-badge">✦ Welcome to my portfolio</span>
+                <p class="greeting">Hello, It's Me</p>
                 <h1>
-                    Hi, I'm <br />
-                    <span class="highlight">Rmanantan</span>
+                    <span class="highlight" id="typedName">Revangga</span>
+                    <span class="typing-cursor"></span>
                 </h1>
-                <p class="subtitle">Creating Visual Stories Through Digital Art</p>
+                <p class="subtitle">And I'm a <span class="highlight" id="typedRole">Frontend Developer</span></p>
                 <p>
-                    I bring imagination to life through digital art. Exploring the 
-                    intersection of art and technology to create captivating visual 
-                    experiences.
+                    I build modern web applications, explore AI technologies,
+                    and contribute to open source. Passionate about creating
+                    meaningful digital experiences.
                 </p>
                 <div class="hero-buttons">
-                    <a href="about.html" class="btn btn-primary">Learn More</a>
+                    <a href="#" class="btn btn-primary" onclick="showToast('CV Downloaded! 📄', 'success')">
+                        Download CV
+                    </a>
                     <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
                 </div>
             </div>
             <div class="hero-image">
-                <div class="hero-avatar">A</div>
+                <div class="hero-avatar float glow">R</div>
             </div>
         </div>
     </section>
 
     <!-- ===== STATS SECTION ===== -->
-    <section class="stats">
+    <section class="stats reveal">
         <div class="stats-container">
             <div class="stat-item">
-                <h2>5+</h2>
-                <p>Years Experience</p>
+                <h2><span class="counter" data-target="3341">0</span></h2>
+                <p>Followers</p>
             </div>
             <div class="stat-item">
-                <h2>100+</h2>
-                <p>Artworks Created</p>
+                <h2><span class="counter" data-target="64">0</span></h2>
+                <p>Projects</p>
             </div>
             <div class="stat-item">
-                <h2>30+</h2>
-                <p>Happy Clients</p>
-            </div>
-            <div class="stat-item">
-                <h2>15+</h2>
-                <p>Exhibitions</p>
+                <h2><span class="counter" data-target="1737">0</span></h2>
+                <p>Contributions</p>
             </div>
         </div>
     </section>
 
-    <!-- ===== FEATURES / SERVICES ===== -->
-    <section class="features">
-        <h2>What I <span class="highlight">Do</span></h2>
-        <p class="features-subtitle">Exploring different artistic mediums and techniques</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <span class="icon">◈</span>
-                <h3>Digital Painting</h3>
-                <p>
-                    Creating stunning digital paintings using various techniques,
-                    blending colors and textures to produce vibrant artwork.
-                </p>
+    <!-- ===== PORTFOLIO SECTION ===== -->
+    <section class="portfolio" id="portfolio">
+        <h2>My <span class="highlight">Portfolio</span></h2>
+        <p class="subtitle">Showcasing my recent work and projects</p>
+        <div class="portfolio-grid">
+            <!-- Project 1 -->
+            <div class="portfolio-box reveal-scale">
+                <div class="portfolio-box-inner">
+                    <div class="portfolio-image">
+                        <span class="placeholder-icon">🎨</span>
+                    </div>
+                    <div class="portfolio-layer">
+                        <h4>Web Design</h4>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Accusamus, sequi! Lorem ipsum dolor sit amet.
+                        </p>
+                        <div class="tags">
+                            <span>#html</span>
+                            <span>#css3</span>
+                            <span>#javascript</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <span class="icon">◈</span>
-                <h3>Character Design</h3>
-                <p>
-                    Bringing characters to life through thoughtful design,
-                    exploring personality, emotion, and visual storytelling.
-                </p>
+
+            <!-- Project 2 -->
+            <div class="portfolio-box reveal-scale" style="transition-delay: 0.2s;">
+                <div class="portfolio-box-inner">
+                    <div class="portfolio-image">
+                        <span class="placeholder-icon">💻</span>
+                    </div>
+                    <div class="portfolio-layer">
+                        <h4>Web Development</h4>
+                        <p>
+                            Building responsive and modern web applications
+                            with cutting-edge technologies and best practices.
+                        </p>
+                        <div class="tags">
+                            <span>#react</span>
+                            <span>#nodejs</span>
+                            <span>#mongodb</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <span class="icon">◈</span>
-                <h3>Motion Graphics</h3>
-                <p>
-                    Combining animation and graphic design to create engaging
-                    visual content that moves and captures attention.
-                </p>
-            </div>
-            <div class="feature-card">
-                <span class="icon">◈</span>
-                <h3>Illustration</h3>
-                <p>
-                    Crafting detailed illustrations that communicate ideas and
-                    tell stories through visual narrative.
-                </p>
+
+            <!-- Project 3 -->
+            <div class="portfolio-box reveal-scale" style="transition-delay: 0.4s;">
+                <div class="portfolio-box-inner">
+                    <div class="portfolio-image">
+                        <span class="placeholder-icon">🎯</span>
+                    </div>
+                    <div class="portfolio-layer">
+                        <h4>UI/UX Design</h4>
+                        <p>
+                            Creating intuitive and beautiful user interfaces
+                            with a focus on user experience and accessibility.
+                        </p>
+                        <div class="tags">
+                            <span>#figma</span>
+                            <span>#design</span>
+                            <span>#prototype</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CTA SECTION ===== -->
-    <section class="cta-section">
-        <div class="cta-container">
-            <h2>Let's <span class="highlight">Create</span> Together</h2>
+    <!-- ===== ABOUT SECTION ===== -->
+    <section class="about" id="about">
+        <div class="about-content reveal-left">
+            <h2>About <span class="highlight">Me</span></h2>
+            <p class="tagline">Frontend Developer &amp; Creative Thinker</p>
             <p>
-                Have a project in mind or want to collaborate? I'd love to hear
-                about your ideas and bring them to life through art.
+                I'm a passionate Frontend Developer with a love for creating
+                beautiful, functional, and user-friendly web applications.
+                My journey in tech started with a simple curiosity about how
+                websites work, and it has since evolved into a full-blown career.
             </p>
-            <div class="cta-buttons">
-                <a href="contact.html" class="btn btn-primary">Start a Project</a>
-                <a href="about.html" class="btn btn-secondary">Learn More</a>
-            </div>
+            <p>
+                I believe in writing clean, maintainable code and building
+                applications that make a difference in people's lives.
+            </p>
+        </div>
+        <div class="about-image reveal-right">
+            <div class="about-avatar">R</div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section class="contact" id="contact">
+        <h2>Get in <span class="highlight">Touch</span></h2>
+        <p class="subtitle">Have a project in mind? Let's talk!</p>
+        <div class="contact-form reveal">
+            <form id="contactForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required />
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" placeholder="Tell me about your project..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%;">
+                    Send Message
+                </button>
+            </form>
         </div>
     </section>
 
@@ -473,12 +501,38 @@
     <footer>
         <p>
             Built with &hearts; using GitHub Pages &bull;
-            &copy; 2026 <a href="index.html">TheOne</a>
+            &copy; 2026 <a href="index.html">REVDev</a>
         </p>
     </footer>
 
-    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ========================================
+    JAVASCRIPT — All Dynamic Features
+    ======================================== -->
     <script>
+        // =========================================
+        // 1. LOADER
+        // =========================================
+        window.addEventListener('load', () => {
+            document.getElementById('loader').classList.add('hidden');
+            initCounters();
+            initReveal();
+            initTypingEffect();
+            initParticles();
+        });
+
+        // =========================================
+        // 2. SCROLL PROGRESS
+        // =========================================
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollProgress').style.width = progress + '%';
+        });
+
+        // =========================================
+        // 3. NAVBAR SCROLL EFFECT
+        // =========================================
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -487,7 +541,53 @@
                 navbar.classList.remove('scrolled');
             }
         });
-    </script>
 
-</body>
-</html>
+        // =========================================
+        // 4. CURSOR FOLLOWER (Desktop only)
+        // =========================================
+        const cursor = document.getElementById('cursorFollower');
+
+        if (window.innerWidth > 768) {
+            cursor.classList.add('active');
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            document.querySelectorAll('a, button, .btn, .portfolio-box, .skill-tag').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // =========================================
+        // 5. TYPING EFFECT
+        // =========================================
+        function initTypingEffect() {
+            const nameElement = document.getElementById('typedName');
+            const roleElement = document.getElementById('typedRole');
+            const nameText = 'Revangga';
+            const roleText = 'Frontend Developer';
+
+            let nameIndex = 0;
+            let roleIndex = 0;
+            let isNameComplete = false;
+            let isRoleComplete = false;
+
+            function typeName() {
+                if (nameIndex < nameText.length) {
+                    nameElement.textContent += nameText.charAt(nameIndex);
+                    nameIndex++;
+                    setTimeout(typeName, 100);
+                } else {
+                    isNameComplete = true;
+                    if (isNameComplete && !isRoleComplete) {
+                        setTimeout(typeRole, 300);
+                    }
+                }
+            }
+
+            function typeRole() {
+                if (roleIndex < roleText.length) {
+                    roleE
