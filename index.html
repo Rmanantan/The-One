@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Home | The One</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>The One | Digital Artist</title>
     <style>
         /* ===== RESET ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -260,14 +259,13 @@
         <p>Built with &hearts; using GitHub Pages &bull; &copy; 2026 <a href="index.html">The One</a></p>
     </footer>
 
-    <!-- ============================================
+    <!-- ========================================
     JAVASCRIPT
-    ============================================ -->
+    ======================================== -->
     <script>
         // ===== NAVBAR SCROLL =====
         window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
 
         // ===== TYPING EFFECT =====
@@ -298,26 +296,15 @@
 
         // ===== REVEAL =====
         function initReveal() {
-            const els = document.querySelectorAll('.reveal');
-            function check() {
-                els.forEach(el => {
-                    if (el.getBoundingClientRect().top < window.innerHeight * 0.85) {
-                        el.classList.add('visible');
-                    }
-                });
-            }
-            window.addEventListener('scroll', check);
-            window.addEventListener('load', check);
-        }
-
-        // ===== SMOOTH SCROLL =====
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', e => {
-                e.preventDefault();
-                const target = document.querySelector(a.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            document.querySelectorAll('.reveal').forEach(el => {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) el.classList.add('visible');
+                    });
+                }, { threshold: 0.2 });
+                observer.observe(el);
             });
-        });
+        }
 
         // ===== INIT =====
         window.addEventListener('load', () => {
@@ -325,7 +312,7 @@
             initReveal();
         });
 
-        console.log(' The One loaded!');
+        console.log('🎨 The One loaded!');
     </script>
 
 </body>
